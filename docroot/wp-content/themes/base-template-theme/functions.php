@@ -222,3 +222,42 @@ function create_topics_nonhierarchical_taxonomy() {
         'show_in_rest' => true,
     ));
 }
+
+
+/*
+ * Add custom admin menu
+ */
+add_action( 'admin_menu', 'my_menu' );
+
+function my_menu() {
+    add_options_page(
+        'My Options',
+        'My Menu',
+        'manage_options',
+        'my-unique-identifier',
+        'my_options'
+    );
+}
+
+function my_options() {
+    if ( !current_user_can( 'manage_options' ) ) {
+        wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+    }
+    echo 'Here is where I output the HTML for my screen.';
+    echo '</div><pre>';
+}
+
+/*
+ * Add custom logo setup
+ */
+function best_template_theme_custom_logo_setup() {
+    $defaults = array(
+        'height'      => 100,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+        'header-text' => array( 'site-title', 'site-description' ),
+    );
+    add_theme_support( 'custom-logo', $defaults );
+}
+add_action( 'after_setup_theme', 'best_template_theme_custom_logo_setup' );
